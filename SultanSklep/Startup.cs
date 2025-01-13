@@ -38,11 +38,11 @@ namespace SultanSklep
                 .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(Options =>
             {
-                Options.Password.RequiredLength = 8;
-                Options.Password.RequireNonAlphanumeric = true;
+                Options.Password.RequiredLength = 6;
+                Options.Password.RequireNonAlphanumeric = false;
                 Options.Password.RequireLowercase = false;
                 Options.Password.RequireUppercase = false;
-                Options.Password.RequireDigit = true;
+                Options.Password.RequireDigit = false;
 
 
                 Options.User.AllowedUserNameCharacters = "abcçdeəfgğhiıjklmnopqrsştuüvyzxqwWABCÇDEƏFGĞHİIJKLMNOPQRSŞTUÜVYZXQ0123456789-._ ";

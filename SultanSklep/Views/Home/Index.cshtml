@@ -1,8 +1,168 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Sultan Sklep - Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<section class="hero">
+    <h1>Sultan Sklep Mięsny</h1>
+    <p>Najlepsza jakość mięsa prosto z natury</p>
+    <a href="#" class="watch-btn"><i class="fa-solid fa-play"></i> Odtwórz</a>
+</section>
+
+<!-- Product Section -->
+<section class="product-section">
+    <div class="container text-center">
+        <h2>Nasze najlepsze produkty mięsne</h2>
+        <p>Wybierz spośród naszej starannie wyselekcjonowanej oferty najwyższej jakości jagnięciny i wołowiny</p>
+
+        <!-- Carousel -->
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Carousel Items -->
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 1">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 2">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 3">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 4">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 5">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 6">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 7">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/assets/img/product-image.jpg" class="img-fluid rounded" alt="Product 8">
+                            <div class="product-name mt-2">Kotlety jagnięce premium</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- Carousel End -->
+    </div>
+</section>
+
+
+<section class="section-container">
+    <h2>Dlaczego warto nas wybrać?</h2>
+
+    <div class="icon-grid">
+        <div class="icon-item">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="60" height="60" fill="url(#pattern0_163_55)" />
+                <defs>
+                    <pattern id="pattern0_163_55" patternContentUnits="objectBoundingBox" width="1" height="1">
+                        <use xlink:href="#image0_163_55" transform="scale(0.01)" />
+                    </pattern>
+                    <image id="image0_163_55" width="100" height="100" xlink:href="data:image/png;base64,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" />
+                </defs>
+            </svg>
+
+            <p>Stala oplata za dostawę</p>
+            <span>Zawsze przystępna cena</span>
+        </div>
+
+        <div class="icon-item">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="60" height="60" fill="url(#pattern0_163_63)" />
+                <defs>
+                    <pattern id="pattern0_163_63" patternContentUnits="objectBoundingBox" width="1" height="1">
+                        <use xlink:href="#image0_163_63" transform="scale(0.0104167)" />
+                    </pattern>
+                    <image id="image0_163_63" width="96" height="96" xlink:href="data:image/png;base64,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" />
+                </defs>
+            </svg>
+
+            <p>Bezpieczna płatność</p>
+            <span>Gwarantujemy</span>
+        </div>
+
+        <div class="icon-item">
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="60" height="60" fill="url(#pattern0_163_72)" />
+                <defs>
+                    <pattern id="pattern0_163_72" patternContentUnits="objectBoundingBox" width="1" height="1">
+                        <use xlink:href="#image0_163_72" transform="scale(0.01)" />
+                    </pattern>
+                    <image id="image0_163_72" width="100" height="100" xlink:href="data:image/png;base64,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" />
+                </defs>
+            </svg>
+
+            <p>Stala oplata za dostawę</p>
+            <span>Zawsze przystępna cena</span>
+        </div>
+
+    </div>
+    <div class="centeredline"></div>
+
+</section>
+
+<section class="reviews-section">
+    <h2>Opinie naszych klientów</h2>
+
+    <div class="review-grid">
+        <div class="review-item">
+            <img src="~/assets/img/man-noback.png" alt="Ismayil Mohsumov">
+            <div class="name">Ismayil Mohsumov</div>
+            <div class="stars">★★★★★</div>
+            <p>Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie. Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie.</p>
+        </div>
+
+        <div class="review-item">
+            <img src="~/assets/img/man1.jpg" alt="Anna Kowalska">
+            <div class="name">Anna Kowalska</div>
+            <div class="stars">★★★★★</div>
+            <p>Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie. Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie.</p>
+        </div>
+
+        <div class="review-item">
+            <img src="~/assets/img/man1.jpg" alt="Jan Nowak">
+            <div class="name">Jan Nowak</div>
+            <div class="stars">★★★★★</div>
+            <p>Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie. Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie.</p>
+        </div>
+
+        <div class="review-item">
+            <img src="~/assets/img/man1.jpg" alt="Maria Wiśniewska">
+            <div class="name">Maria Wiśniewska</div>
+            <div class="stars">★★★★★</div>
+            <p>Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie. Najlepsze mięso, jakie kiedykolwiek kupiłam! Świeże, smaczne i w świetnej cenie.</p>
+        </div>
+    </div>
+
+</section>

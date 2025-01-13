@@ -1,0 +1,180 @@
+
+/* Hero Section */
+.hero {
+    /* margin-top: 160px !important; */
+    margin-top: 125px;
+    height: 400px;
+    background-image: url('/assets/img/et.jpg'); 
+    background-size: cover;
+    background-position: center;
+    text-align: left;
+    padding: 100px 20px; /* Adjust padding as needed */
+    padding-left: 100px;
+    color: white; 
+  }
+  
+  .hero h1 {
+    font-size: 3em; /* Adjust font size as needed */
+    margin-bottom: 10px;
+  }
+  
+  .hero p {
+    font-size: 1.2em; /* Adjust font size as needed */
+    margin-bottom: 20px;
+  }
+  
+  .watch-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #C8102E; /* Red button color */
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px; /* Add rounded corners */
+  }
+  
+  
+  
+  /* Product Section */
+  .product-section {
+    text-align: center;
+    padding: 50px 20px;
+  }
+  
+  .product-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+  }
+  
+  .product-section p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+  }
+  
+  .product-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .product-item {
+    width: 200px;
+    /* Adjust width as needed */
+    height: 250px;
+    /* Adjust height as needed */
+    background-color: #f2f2f2;
+    /* Light gray background for the product items */
+    border-radius: 10px;
+    /* Add rounded corners to product items */
+  }
+  
+  .product-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    /* Add rounded corners to product images */
+  }
+  
+  .product-name {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  
+
+
+  /* Section Container */
+  .section-container {
+    padding: 50px 80px;
+    text-align: center;
+}
+
+.centeredline{
+  width: 60%; /* Set the line width to 60% of the container */
+  margin: 20px auto; /* Center the line horizontally */
+  margin-top: 45px;
+  border-bottom: #C8102E 2px solid;
+}
+.section-container h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+
+/* Icon Grid */
+.icon-grid {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-item svg {
+    margin-bottom: 20px;
+}
+
+.icon-item p {
+    font-weight: bold;
+}
+
+.icon-item span {
+    font-size: 0.9em;
+    color: #555;
+}
+
+
+
+
+/* Section Container */
+.reviews-section {
+  
+    padding: 50px 80px;
+    text-align: center;
+}
+
+.reviews-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+
+/* Review Grid */
+.review-grid {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 80px;
+}
+
+.review-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px; /* Adjust width as needed */
+}
+
+.review-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.review-item .name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.review-item .stars {
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.review-item p {
+    line-height: 1.6;
+}

@@ -1,0 +1,35 @@
+/* Product Display Container */
+.product-display-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh; /* Ensures it takes most of the vertical space */
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+/* Product Box */
+.product-box {
+    width: 60%; /* Adjust width as needed */
+    background-color: #fff;
+    border: 2px solid #C8102E; /* Red border to match branding */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center;
+}
+
+/* Product Title */
+.product-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Product Description */
+.product-description {
+    font-size: 1.2em;
+    color: #666;
+    line-height: 1.5;
+}

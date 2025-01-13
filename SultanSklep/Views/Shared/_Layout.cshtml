@@ -1,48 +1,200 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"] - SultanSklep</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link rel="stylesheet" href="~/assets/css/global.css">
+    <link rel="stylesheet" href="~/assets/css/header.css">
+    <link rel="stylesheet" href="~/assets/css/footer.css">
+    <link rel="stylesheet" href="~/assets/css/main_page.css">
+    <link rel="stylesheet" href="~/assets/css/account.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
 <body>
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SultanSklep</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <div id="navbar-container">
+            <div class="container-fluid fixed-top px-0 top-and-navbar">
+                <div class="top-bar text-center text-white row gx-0 align-items-center d-none d-lg-flex">
+                    <p>Darmowa dostawa od 100 PLN</p>
+                </div>
+
+                <nav class="navbar-box">
+                    <div class="logo">
+                        <img src="~/assets/img/sultan-no-background.png" alt="Sultan Restaurant Logo">
+                    </div>
+
+                    <ul class="nav-links">
+                        <li><a href="#">Wołowina</a></li>
+                        <li><a href="#">Jagnięcina</a></li>
+                        <li><a href="#">Przekąski</a></li>
+                        <li><a href="#">Pieczywo</a></li>
+                        <li class="dropdown dropdown-helper ">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">Wszystkie</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Option 1</a>
+                                <a class="dropdown-item" href="#">Option 2</a>
+                                <a class="dropdown-item" href="#">Option 3</a>
+                                <a class="dropdown-item" href="#">Option 4</a>
+                                <a class="dropdown-item" href="#">Option 5</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
                     </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="class="icons">
+                            
+                            <a >
+                                @User.Identity.Name
+                            </a>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a style="cursor: pointer" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fas fa-user"></i>
+                                    <p style="display: inline-block; margin-left: 2px">Admin Panel</p>
+                                </a>
+                            }
+
+                            @if (User.IsInRole("SuperModerator"))
+                            {
+                                <a style="cursor: pointer" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fas fa-user"></i>
+                                    <p style="display: inline-block; margin-left: 2px">Idarəçi Paneli</p>
+                                </a>
+                            }
+
+                            @if (User.IsInRole("Moderator"))
+                            {
+                                <a style="cursor: pointer" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                    <i class="fas fa-user"></i>
+                                    <p style="display: inline-block; margin-left: 2px">Nəzarətçi Paneli</p>
+                                </a>
+                            }
+
+                            @if (User.IsInRole("User"))
+                            {
+                                <a style="cursor: pointer" asp-controller="Account" asp-action="UserPage">
+                                    <i class="fas fa-user"></i>
+                                    <p style="display: inline-block; margin-left: 2px">Hesabım</p>
+                                </a>
+                            }
+
+
+
+                            <a style="cursor: pointer" asp-controller="Account" asp-action="Logout" asp-route-ReturnUrl="@Context.Request.Path.Value" class="dropdown-item my-login-btn text-center">
+                                <i class="bi bi-box-arrow-left"></i>
+                                <p style="display: inline-block; margin-left: 2px">Çıxış</p>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="icons">
+                            <a href="../../account.html">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    }
+                    
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- Placeholder for Footer -->
+    <div id="footer-container">
+        <footer class="footer">
+            <div class="footer-left">
+                <img src="~/assets/img/sultan-no-background.png" alt="Sultan Logo">
+                <div class="footer-text">
+
+                    <p>Najwyższej jakości <br> mięso prosto od <br> sprawdzonych dostawców. <br> Dziękujemy za zaufanie!</p>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#">Sklep</a></li>
+                    <li><a href="#">O nas</a></li>
+                    <li><a href="#">Pomoc</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">Mięsa</a></li>
+                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">Kurczak</a></li>
+                    <li><a href="#">Regulamin</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">Napoje</a></li>
+                    <li><a href="#">Polityka prywatności</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-right">
+                <div class="social-icons">
+                    <span>CONNECT WITH US</span>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="rozet-icons">
+                    <svg width="89" height="102" viewBox="0 0 89 102" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <rect width="89" height="102" fill="url(#pattern0_169_13)" />
+                        <defs>
+                            <pattern id="pattern0_169_13" patternContentUnits="objectBoundingBox" width="1" height="1">
+                                <use xlink:href="#image0_169_13" transform="matrix(0.01 0 0 0.00872549 0 0.0637255)" />
+                            </pattern>
+                            <image id="image0_169_13" width="100" height="100"
+                                   xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADTklEQVR4nO2dzYtOYRyGLysj32s2dqSUsJGVZjMKo+xImvkDLGQlscbGwmKwIsnOSuz9ASRSvsrENMpC0ZTip7eepGne8Y5zZu77PO/vqms1zznnee77fMz7US8kSZIkSZIkSZJ0j0PANBBD7jQwhgFZBn9K+YAB6jMzzJSjDiDMlKMOIMyUow4gzJSjDiDMlKMOIMyUow4gzJSjDiDMlKMOIMyUow4gzJSjDiDMlKMOIMyUow4gzJSjDiDMlKMOIMyUow4gzJSjDiDMlKMOIMyUow4gzJSjDiDMlKMOIMyUow4gzJTT2YnXuq7OTrzWdXV24rWuq7MTr3VdTR+CtSlHHUCYKUcdQJgpRx1AmClHHUCYKUcdQJgpRx1AmClHHUCYKaezE691XZ2deK3r6uzEa11XZyde67qaPgRrU446gDBTjjqAMFOOOoAwU446gDBTjjqAMFOOOoAwU446gDBTjjqAMFOOOoAwU446gDBTjjqAMFPOci/wLjAKHARuGgQ+1IVcX+B41wxCH5pCpoBtwAhwANiwwPHWl7+NlLFTBiVUWcjDBnN4ZFBEdYWcbTCHcwZFVFfI5QZzuGJQRDWF/CxlbGkwh962V8u+spCGIZxv8eS4kIU0PyM3tVjI5iyk+e1qdYuFjAC/8hnSrJQTLRZyMq+Q5resr8CeFsrYU/aVD/UWblu7Wyhkr0EZPeU0XcCzyn7LRE7TBbxpaR6rgJkspJ2zaryFQo4ZlFHFFdJzDrgI7C+vJQZlfdnmUtmHuoxqCvnb+0s49h2DAqov5AuwccAXgZ8MCqi+kACeAPuArcBx4B3wFjgMrAV2AI8Nwh+aQqLDylEHEGbKUQcQZsppe0GjwD3gNfAZeFq+aXILeA/8KA/+B8BRgwKqL2SpqAvIQuahLiALmYe6gCxkHuoChq6QCWC2OLECx89C+hSyps+Xq3vvX63LQlbuQ6EeO4GXi4x5WcZgcEXY/cD9WJlIW4s6DXwfYNz3MtapjF4WnWeQxb4oDnqFJctYyO3yDm/vmXIjC1l++hUxB5xZYPwp4FteIStbyCtg1yLbbAee5y1reZj5x7+1/Vi3wEe4H/uOTgZmvLyrOwtM/kduk2Xb3j6OZO5JQsX8BjS83gT94Sg2AAAAAElFTkSuQmCC" />
+                        </defs>
+                    </svg>
+
+                    <svg width="89" height="102" viewBox="0 0 89 102" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <rect width="89" height="102" fill="url(#pattern0_169_12)" />
+                        <defs>
+                            <pattern id="pattern0_169_12" patternContentUnits="objectBoundingBox" width="1" height="1">
+                                <use xlink:href="#image0_169_12" transform="matrix(0.01 0 0 0.00872549 0 0.0637255)" />
+                            </pattern>
+                            <image id="image0_169_12" width="100" height="100"
+                                   xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFMUlEQVR4nO2czW9VRRiHn9rGIiQq9asQ48aERMGIliYCiYlS2Ap2b4T6J6gsZIGhFULZC6bSpdJE48aFSzeY6B8hpmhUGsilWmqLjBnz3uTk5J5zz+k9H+98/JJfcpOer3mfnpk5M+8MREVFRUVFRUVFRfXSDmAKOCq/o1rUCeAOYMT293Qk0o5eBtYTMLr+B3g1QmlWQ8D3PWB0/RPwUISydY1KG3Ac2FXg+HdzYHT9XoHr7JZq75g8QxRwCLiZCOQGcBl4JiM6E0CnAJC7wIGMa4wDV4DNxPG/AodDJ/I4sJIR0FVgFtgL7BQQ88C9AjC6tsdeEjBjwD655mrG8Styr2B1skRwTUM+RcA6qwCASfkcAeu8AgAm5QsErHkFAEzKts0JVlcVADApLxKoRoAbCgCYlG/IswWnDxUE32T4AwLSiBT4voLAmwzfl38Yr94U+4E1A8xJz+WC1M8aqymTU30tJp5/Tsrk3Mfj4ZwvcB+8IkM+TmhUxoWM577pyoDkMQXBMg3ZjlCr19sKAmUasi2reu1KDWv76s2CczcqdEVBwEzN/gyH9HTBSSRXverS29HVnILAmZr8CQ7qJQWBMzXZzjw6p6cUBM7U5CdxUAcUBM7U5Ekc1CUFgTM12U6sOaXJktkhrvleToqRuozCGcmJMp77riTjqc2Q3A9cVxAo07B/AF5BmaYzEp9D8bqmca0dqSUBofqOlvUpRxUEwyixnXpoXREIuuZHYpXF/zBua6mykAYt9Eb9OMoUarf3upRdpUL6MOxIWW2Z1csurllTEDRTk9dcXFiqMbPdVOSLOKhJBYEzNdnWAM7J5wmqMRzUPgWBMzX5RRzUrILAmZrs3DrEmAakTCEkyl3GEe0OKJV0HAc0rSBYpiHbfVLUK6TlCEdwQKOpzWR89TLwMI7okOdL2m4Br+HgTj8n5Xuku2jyqmOLPn8GPk88/6yU6TE8kl1qfNqBZdHvA8MEpNMKAm8yHNTGAck35Rel1dQwgWpRAQCTsm0zvNGwB5NY8yXLoHb7DdsN/BP4Qj6Ytjm6gdn5As+9TXKwrkkX+CAKYaQXeW5IG/FlznkfKwBgUrbPlKVrUqaN1DkdTVB6wUjabrORpVMKAJiU7Z7AWfot5zwVUPrBsP43Z4hhZ59tYs/J7NyYzNFfLJnNsibnTMq99vbZJvZWzkefraYe9Llfq1CKwOj6zRIbKW/KfErW0PZEwbyvTk6qTq+NlJf7DIdMFSxrK1DKwLD+tMCA5BTwVsE5hpkC97TH9NO43PNIgYHCMpNujUKZkMRiU7LqeK7CZxjqk7b6Y8VLzZ4F/i5Z5r+A11H2ZiRteyhVan9Ggvd6xbm2Fv5XWyxzrW/KIDC6tuNXVepE6m29LVVQlfpowDJ36hiqrwJGt8d1puIE5e3S/kzJ76o0JFuh9+tZNQ6lKhhJfwu8UODej8jS4yqGJ0akoS8ygmC7x99VXOZKoNQBo2vb5fwaeAd4XoJv9YR0k+1OEH/I/fcwuPbItX6X8ao3EnuWbJe/28mnb2qcqxkIyqPAArA0gJdLPvCDmhvFgxX8gy0PGJMFiW0rWtJS7w7YbU/alslZLSmDUQWU4IB0Gsro2CqUoIB0Gk6v2QqUYIB0Wsp1KgslCCBtwdgKFO+BtA2jLBSvgWiBUQaKt0C0wSgKxUsgWmEUgeIdEO0w+kHxCogrMPKgeAPENRhZULwA4iqMXlCcB+I6jDQUp4EseAIjCcWmAzmr1iZiapSPZYqKioqKioqKwm/9B+f/BHv9S+FBAAAAAElFTkSuQmCC" />
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>
+                    <span class="sultan-bold">SultanSklep</span>
+                    <span class="sultan-bold-all">
+                        - All rights reserved created by <a href="https://wedevloop.com/Account/Login?ReturnUrl=%2F">Wedevloop</a>
+                    </span>
+                </p>
+            </div>
+        </footer>
+
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - SultanSklep - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Scripts -->
+    <script src="~/assets/js/account.js"></script>
+    <script src="https://kit.fontawesome.com/eb23b2d8dd.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 </body>
+
 </html>
