@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SultanSklep.Models.Product>
+
+<h2>Məhsul Siyahısı</h2>
+<a href="@Url.Action("Create", "Product", new { area = "AdminArea" })" class="btn btn-primary">Yeni Məhsul Əlavə Et</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ad</th>
+            <th>Kateqoriya</th>
+            <th>Say</th>
+            <th>Şəkil</th>
+            <th>Əməliyyatlar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.ProductName</td>
+                <td>@product.Category?.Name</td>
+                <td>@product.Count</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(product.Image))
+                    {
+                        <img src="/@product.Image" alt="@product.ProductName" width="50" />
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Product", new { area = "AdminArea", id = product.Id })" class="btn btn-warning">Redaktə Et</a>
+                    <a href="@Url.Action("Delete", "Product", new { area = "AdminArea", id = product.Id })" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

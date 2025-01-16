@@ -1,0 +1,40 @@
+﻿@model SultanSklep.ViewModels.Product.ProductViewModel
+
+<h2>Məhsulu Redaktə Et</h2>
+
+<form asp-action="Edit" asp-area="AdminArea" asp-controller="Product" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label for="ProductName">Məhsulun Adı</label>
+        <input type="text" asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Description">Təsviri</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Count">Say</label>
+        <input type="number" asp-for="Count" class="form-control" />
+        <span asp-validation-for="Count" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="CategoryId">Kateqoriya</label>
+        <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name", Model.CategoryId))" class="form-control"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Photo">Yeni Şəkil</label>
+        <input type="file" asp-for="Photo" class="form-control" />
+        <span asp-validation-for="Photo" class="text-danger"></span>
+    </div>
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+        <div class="form-group">
+            <label>Mövcud Şəkil</label>
+            <img src="/@Model.Image" alt="@Model.ProductName" width="100" />
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Yenilə</button>
+</form>
