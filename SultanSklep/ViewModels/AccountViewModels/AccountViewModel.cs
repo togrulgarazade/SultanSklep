@@ -8,6 +8,7 @@ namespace SultanSklep.ViewModels.AccountViewModels
 {
     public class AccountViewModel
     {
+        public bool RememberMe { get; set; }
 
         public string Name { get; set; }
         public string Surname { get; set; }

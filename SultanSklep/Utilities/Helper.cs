@@ -15,7 +15,7 @@ namespace SultanSklep.Utilities
         public static bool SendEmail(string userEmail, string msgArea, string subject)
         {
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("contact.togshop@gmail.com");
+            mailMessage.From = new MailAddress("nesib7474@gmail.com");
             mailMessage.To.Add(new MailAddress(userEmail));
 
             mailMessage.Subject = subject;
@@ -23,7 +23,7 @@ namespace SultanSklep.Utilities
             mailMessage.Body = msgArea;
 
             SmtpClient client = new SmtpClient();
-            client.Credentials = new NetworkCredential("togrulgarazade.work@gmail.com", "txhqnexaspkmhfzi");
+            client.Credentials = new NetworkCredential("nesib7474@gmail.com", "tgqkolgckmexrxxs");
             client.Host = "smtp.gmail.com";
             client.Port = 587;
             client.EnableSsl = true;
