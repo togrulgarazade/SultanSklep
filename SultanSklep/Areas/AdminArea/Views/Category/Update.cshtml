@@ -1,0 +1,16 @@
+﻿@model SultanSklep.Models.Category
+@{
+    ViewData["Title"] = "Update Category";
+}
+
+<div class="container">
+    <h2>Kateqoriyanı Yenilə</h2>
+    <form method="post" asp-action="Update" asp-route-id="@Model.Id">
+        <div class="form-group">
+            <label asp-for="Name">Kateqoriya Adı</label>
+            <input asp-for="Name" class="form-control" placeholder="Kateqoriya adını yeniləyin">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Yenilə</button>
+    </form>
+</div>

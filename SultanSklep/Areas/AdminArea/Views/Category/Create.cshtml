@@ -1,0 +1,16 @@
+﻿@model SultanSklep.Models.Category
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<div class="container">
+    <h2>Kateqoriya Əlavə Et</h2>
+    <form method="post" asp-action="Create">
+        <div class="form-group">
+            <label asp-for="Name">Kateqoriya Adı</label>
+            <input asp-for="Name" class="form-control" placeholder="Kateqoriya adını daxil edin">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Əlavə Et</button>
+    </form>
+</div>

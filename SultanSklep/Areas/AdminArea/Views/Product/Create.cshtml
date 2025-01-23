@@ -1,32 +1,98 @@
 ﻿@model SultanSklep.ViewModels.Product.ProductViewModel
 
-<h2>Yeni Məhsul Əlavə Et</h2>
 
-<form asp-action="Create" asp-area="AdminArea" asp-controller="Product" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="ProductName">Məhsulun Adı</label>
-        <input type="text" asp-for="ProductName" class="form-control" />
-        <span asp-validation-for="ProductName" class="text-danger"></span>
+
+
+
+
+
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Məhsul yarat</h1>
+                                </div>
+                                <form class="user" method="post" asp-controller="Product" asp-action="Create" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <input asp-for="ProductName" autocomplete="off" class="form-control form-control-user text-center" style="font-size: 15px;"
+                                               placeholder="Məhsulun adı">
+                                        <span class="text-danger" asp-validation-for="ProductName"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input asp-for="Description" autocomplete="off" class="form-control form-control-user text-center" style="font-size: 15px;"
+                                               placeholder="Məhsulun başlığı">
+                                        <span class="text-danger" asp-validation-for="Description"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input asp-for="Count" autocomplete="off" class="form-control form-control-user text-center" style="font-size: 15px;"
+                                               placeholder="Məhsulun sayı">
+                                        <span class="text-danger" asp-validation-for="Count"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input asp-for="Price" autocomplete="off" class="form-control form-control-user text-center" style="font-size: 15px;"
+                                               placeholder="Məhsulun qiyməti">
+                                        <span class="text-danger" asp-validation-for="Price"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input asp-for="IsAvailable" class="custom-control-input">
+                                            <label class="custom-control-label" asp-for="IsAvailable">
+                                                Endirimdədirmi ?
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label asp-for="CategoryId">Kateqoriya seçin:<span class="text-danger">*</span></label>
+                                        <select class="form-control" asp-for="CategoryId">
+                                            @foreach (var item in (List<Category>)ViewBag.categories)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+
+
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="Photo">Şəkil</label>
+                                        <input type="file" asp-for="Photo" class="form-control" />
+                                        <span asp-validation-for="Photo" class="text-danger"></span>
+                                    </div>
+
+
+                                    <button style="font-weight: bold; text-transform: uppercase;" type="submit" class="btn btn-primary btn-user btn-block">
+                                        Yarat
+                                    </button>
+                                    <a style="font-weight: bold; text-transform: uppercase;" asp-area="AdminArea" asp-controller="Product" asp-action="Index" class="btn btn-danger btn-user btn-block">
+                                        Imtina et
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-    <div class="form-group">
-        <label for="Description">Təsviri</label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Count">Say</label>
-        <input type="number" asp-for="Count" class="form-control" />
-        <span asp-validation-for="Count" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="CategoryId">Kateqoriya</label>
-        <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))" class="form-control"></select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Photo">Şəkil</label>
-        <input type="file" asp-for="Photo" class="form-control" />
-        <span asp-validation-for="Photo" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Əlavə Et</button>
-</form>
+
+</div>
