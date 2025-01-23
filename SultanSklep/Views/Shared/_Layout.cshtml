@@ -27,7 +27,7 @@
 
                 <nav class="navbar-box">
                     <div class="logo">
-                        <img src="~/assets/img/sultan-no-background.png" alt="Sultan Restaurant Logo">
+                        <a asp-controller="Home" asp-action="Index"><img src="~/assets/img/sultan-no-background.png" alt="Sultan Restaurant Logo"></a>
                     </div>
 
                     <ul class="nav-links">
@@ -57,27 +57,15 @@
 
                             @if (User.IsInRole("Admin"))
                             {
-                                <a style="cursor: pointer" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                                <a style="cursor: pointer" asp-area="AdminArea" asp-controller="Dashboard" asp-action="Index">
                                     <i class="fas fa-user"></i>
                                     <p style="display: inline-block; margin-left: 2px">Admin Panel</p>
                                 </a>
                             }
 
-                            @if (User.IsInRole("SuperModerator"))
-                            {
-                                <a style="cursor: pointer" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                                    <i class="fas fa-user"></i>
-                                    <p style="display: inline-block; margin-left: 2px">Idarəçi Paneli</p>
-                                </a>
-                            }
+                        
 
-                            @if (User.IsInRole("Moderator"))
-                            {
-                                <a style="cursor: pointer" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                                    <i class="fas fa-user"></i>
-                                    <p style="display: inline-block; margin-left: 2px">Nəzarətçi Paneli</p>
-                                </a>
-                            }
+                            
 
                             @if (User.IsInRole("User"))
                             {
@@ -86,9 +74,6 @@
                                     <p style="display: inline-block; margin-left: 2px">Hesabım</p>
                                 </a>
                             }
-
-
-
                             <a style="cursor: pointer" asp-controller="Account" asp-action="Logout" asp-route-ReturnUrl="@Context.Request.Path.Value" class="dropdown-item my-login-btn text-center">
                                 <i class="bi bi-box-arrow-left"></i>
                                 <p style="display: inline-block; margin-left: 2px">Çıxış</p>
@@ -98,7 +83,7 @@
                     else
                     {
                         <div class="icons">
-                            <a href="../../account.html">
+                            <a asp-controller="Account" asp-action="Authentication">
                                 <i class="fas fa-user"></i>
                             </a>
                             <i class="fas fa-shopping-cart"></i>
@@ -117,7 +102,7 @@
     <div id="footer-container">
         <footer class="footer">
             <div class="footer-left">
-                <img src="~/assets/img/sultan-no-background.png" alt="Sultan Logo">
+                <a asp-controller="Home" asp-action="Index"><img src="~/assets/img/sultan-no-background.png" alt="Sultan Logo"></a>
                 <div class="footer-text">
 
                     <p>Najwyższej jakości <br> mięso prosto od <br> sprawdzonych dostawców. <br> Dziękujemy za zaufanie!</p>
