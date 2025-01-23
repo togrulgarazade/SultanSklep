@@ -1,0 +1,52 @@
+﻿@model IEnumerable<SultanSklep.Models.Category>
+@{
+    ViewData["Title"] = "Kateqoriyalar";
+    int count = 1;
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Kateqoriyalar</h1>
+    <p class="mb-4 d-flex justify-content-end">
+        <a class="btn btn-primary" asp-controller="Category" asp-action="Create">Əlavə et</a>
+    </p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="input-group">
+                <form method="get" asp-action="Index">
+                    <div class="form-outline">
+                        <input autocomplete="off" type="search" placeholder="Kateqoriyalarda axtar..." value="@ViewData["SearchedCategory"]" name="categorySearch" class="form-control" />
+                        <a class="btn btn-link" asp-action="Index">Bütün kateqoriyalar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ad</th>
+                            <th>Əməliyyatlar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@item.Name</td>
+                                <td>
+                                    <a class="btn btn-primary" asp-controller="Category" asp-action="Update" asp-route-id="@item.Id"><i class="fa-solid fa-pencil"></i></a>
+                                    <a class="btn btn-primary" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

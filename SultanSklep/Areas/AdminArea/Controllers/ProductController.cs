@@ -68,8 +68,9 @@ namespace SultanSklep.Areas.AdminArea.Controllers
                 ProductName = model.ProductName,
                 Description = model.Description,
                 Count = model.Count,
+                Price = model.Price,
                 CategoryId = model.CategoryId,
-                IsAvailable = true,
+                IsAvailable = model.IsAvailable,
                 IsDeleted = false
             };
 
@@ -108,8 +109,11 @@ namespace SultanSklep.Areas.AdminArea.Controllers
                 ProductName = product.ProductName,
                 Description = product.Description,
                 Count = product.Count,
+                Price = product.Price,
                 CategoryId = product.CategoryId,
-                Image = product.Image
+                Image = product.Image,
+                IsAvailable = product.IsAvailable
+
             };
 
             return View(viewModel);
@@ -139,7 +143,9 @@ namespace SultanSklep.Areas.AdminArea.Controllers
             product.ProductName = model.ProductName;
             product.Description = model.Description;
             product.Count = model.Count;
+            product.Price = model.Price;
             product.CategoryId = model.CategoryId;
+            product.IsAvailable = model.IsAvailable;
 
             if (model.Photo != null)
             {

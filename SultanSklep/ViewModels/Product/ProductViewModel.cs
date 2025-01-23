@@ -20,6 +20,9 @@ namespace SultanSklep.ViewModels.Product
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public List<Category> Categories { get; set; }
+
+        public decimal Price { get; set; }
+        public bool IsAvailable { get; set; } // Məhsulun mövcud olub olmadığını göstərir
     }
 
 }
