@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a New Address</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Add a New Address</h2>
+
+        <form asp-action="AddAddress" method="post">
+            <div class="mb-3">
+                <label for="city" class="form-label">City:</label>
+                <input type="text" id="city" name="City" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="street" class="form-label">Street:</label>
+                <input type="text" id="street" name="Street" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="flat" class="form-label">Flat:</label>
+                <input type="text" id="flat" name="Flat" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="postNumber" class="form-label">Post Number:</label>
+                <input type="text" id="postNumber" name="PostNumber" class="form-control">
+            </div>
+
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="saveAddressLabel" name="saveAddressLabel">
+                <label class="form-check-label" for="saveAddressLabel">Save Address Label</label>
+            </div>
+
+            <div class="mb-3" id="addressLabelDiv" style="display:none;">
+                <label for="addressLabel" class="form-label">Address Label (Optional):</label>
+                <input type="text" id="addressLabel" name="AddressLabel" class="form-control" placeholder="Enter address label (if desired)">
+            </div>
+
+            <button type="submit" class="btn btn-success">Add Address</button>
+        </form>
+
+        
+    </div>
+
+    <script>
+        // "Save Address Label" seçimi təyin edilərsə, AddressLabel input sahəsi göstərilsin
+        document.getElementById("saveAddressLabel").addEventListener("change", function () {
+            var addressLabelDiv = document.getElementById("addressLabelDiv");
+            if (this.checked) {
+                addressLabelDiv.style.display = "block"; // AddressLabel input sahəsini göstər
+            } else {
+                addressLabelDiv.style.display = "none"; // AddressLabel input sahəsini gizlət
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

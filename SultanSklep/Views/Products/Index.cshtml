@@ -1,0 +1,24 @@
+﻿@model IEnumerable<SultanSklep.Models.Product>
+
+<section>
+    <h2>Product List</h2>
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <img height="30" src="@product.Image" class="card-img-top" alt="@product.ProductName">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.ProductName</h5>
+                        <p class="card-text">@product.Price zł</p>
+                        <a asp-action="ProductDetails" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
+                        <form asp-controller="ProductOperations" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
