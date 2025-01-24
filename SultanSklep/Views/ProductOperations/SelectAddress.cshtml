@@ -1,0 +1,94 @@
+﻿@using System.Linq
+@model List<SultanSklep.Models.Address>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Address</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Select an Address</h2>
+
+        <!-- Mövcud ünvanlar üçün SelectBox -->
+        @if (Model.Count > 0)
+        {
+<form asp-action="ConfirmOrder" method="post">
+    <div class="mb-3">
+        <label for="addressId" class="form-label">Choose an Address:</label>
+        <select id="addressId" name="addressId" class="form-select">
+            @foreach (var address in Model)
+            {
+<option value="@address.Id">@address.AddressLabel - @address.Street, @address.City</option>}
+        </select>
+    </div>
+
+    <!-- ProductOperationId göndərilməsi -->
+    <input type="hidden" name="productOperationId" value="@ViewData["ProductOperationId"]" />
+
+    <button type="submit" class="btn btn-primary">Confirm Order</button>
+</form> }
+            else
+            {
+<p>No saved addresses. Add a new one below.</p>}
+
+        <div class="mt-4">
+            <h3>Add a New Address</h3>
+            <form asp-action="AddNewAddressAndProceed" method="post">
+                <div class="mb-3">
+                    <label for="city" class="form-label">City:</label>
+                    <input type="text" id="city" name="City" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="street" class="form-label">Street:</label>
+                    <input type="text" id="street" name="Street" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="flat" class="form-label">Flat:</label>
+                    <input type="text" id="flat" name="Flat" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="postNumber" class="form-label">Post Number:</label>
+                    <input type="text" id="postNumber" name="PostNumber" class="form-control">
+                </div>
+
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="saveAddressLabel" name="saveAddressLabel">
+                    <label class="form-check-label" for="saveAddressLabel">Save Address Label</label>
+                </div>
+
+                <div class="mb-3" id="addressLabelDiv" style="display:none;">
+                    <label for="addressLabel" class="form-label">Address Label (Optional):</label>
+                    <input type="text" id="addressLabel" name="AddressLabel" class="form-control" placeholder="Enter address label (if desired)">
+                </div>
+
+                <!-- ProductOperationId göndərilməsi -->
+                <input type="hidden" name="productOperationId" value="@ViewData["ProductOperationId"]" />
+
+                <button type="submit" class="btn btn-success">Add Address and Confirm Order</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("saveAddressLabel").addEventListener("change", function () {
+            var addressLabelDiv = document.getElementById("addressLabelDiv");
+            if (this.checked) {
+                addressLabelDiv.style.display = "block";
+                document.querySelector('input[name="saveAddressLabel"]').value = "true";
+            } else {
+                addressLabelDiv.style.display = "none";
+                document.querySelector('input[name="saveAddressLabel"]').value = "false";
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

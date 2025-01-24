@@ -1,0 +1,13 @@
+﻿@model SultanSklep.Models.Product
+
+<div class="product-details">
+    <img src="@Model.Image" alt="@Model.ProductName">
+    <h2>@Model.ProductName</h2>
+    <p>@Model.Description</p>
+    <p>Price: @Model.Price zł</p>
+    <p>Stock: @Model.Count</p>
+    <form asp-controller="ProductOperations" asp-action="AddToCart" method="post">
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <button type="submit" class="btn btn-success">Add to Cart</button>
+    </form>
+</div>
