@@ -1,24 +1,62 @@
-﻿@model IEnumerable<SultanSklep.Models.Product>
-
-<section>
-    <h2>Product List</h2>
-    <div class="row">
-        @foreach (var product in Model)
-        {
-            <div class="col-md-3">
-                <div class="card">
-                    <img height="30" src="@product.Image" class="card-img-top" alt="@product.ProductName">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.ProductName</h5>
-                        <p class="card-text">@product.Price zł</p>
-                        <a asp-action="ProductDetails" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
-                        <form asp-controller="ProductOperations" asp-action="AddToCart" method="post">
-                            <input type="hidden" name="productId" value="@product.Id" />
-                            <button type="submit" class="btn btn-success">Add to Cart</button>
-                        </form>
+﻿@model SultanSklep.ViewModels.Product.ProductViewModel
+<!--Main Product Section -->
+<section class="hero-section">
+    <div class="hero-section-banner">
+        <img src="assets/img/MainProduct/Promotional product.png" alt="">
+    </div>
+</section>
+<section class="section-helper">
+    <div class="main-product-title-box">
+        <h2 class="main-product-title">Wsyzstkie Produkty</h2>
+    </div>
+    <div class="main-product-title-menu container">
+        <ul>
+            <li><a href="#">Sortuj</a></li>
+            <li>
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">Domyślne sortowanie</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Option 1</a>
+                    <a class="dropdown-item" href="#">Option 2</a>
+                    <a class="dropdown-item" href="#">Option 3</a>
+                    <a class="dropdown-item" href="#">Option 4</a>
+                    <a class="dropdown-item" href="#">Option 5</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            
+            @foreach (var product in @Model.Product)
+            {
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="product-box">
+                        <img width="290" src="~/@product.Image" alt="@product.ProductName">
+                        <div class="product-info">
+                            <div class="product-info-element">
+                                <h3>@product.ProductName</h3>
+                                <p>@product.Price zl</p>
+                            </div>
+                            <div class="quantity-controls-box">
+                                <div class="quantity-controls">
+                                    <button class="decrease">-</button>
+                                    <input class="quantity" type="number" value="0" min="1">
+                                    <button class="increase">+</button>
+                                </div>
+                                <div class="add-to-cart-box">
+                                    <form asp-action="AddToCart" asp-controller="ProductOperations" method="post">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <input type="number" name="count" value="1" min="1" max="@product.Count" class="form-control" />
+                                        <button type="submit" class="btn btn-primary mt-2">Add to Cart</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+
+        </div>
+
     </div>
 </section>
