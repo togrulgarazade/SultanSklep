@@ -2,6 +2,9 @@
 using SultanSklep.DataAccessLayer;
 using SultanSklep.Models;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SultanSklep.ViewModels.Product;
 
 namespace SultanSklep.Controllers
 {
@@ -14,27 +17,50 @@ namespace SultanSklep.Controllers
             _context = context;
         }
 
-        // Məhsullar siyahısı
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var products = _context.Products
-                .Where(p => !p.IsDeleted && p.IsAvailable)
-                .ToList();
-            return View(products);
-        }
 
-        // Məhsul detalları
-        public IActionResult ProductDetails(int id)
+            var productViewModel = new ProductViewModel()
+            {
+                Product = await _context.Products.ToListAsync(),
+            };
+
+            return View(productViewModel);
+
+        }
+        public async Task<IActionResult> ProductDetails(int id)
         {
-            var product = _context.Products
-                .FirstOrDefault(p => p.Id == id && !p.IsDeleted && p.IsAvailable);
+            if (id == 0)
+            {
+                return BadRequest("Invalid product ID.");
+            }
+
+            var product = await _context.Products
+                .Where(p => p.Id == id)
+                .Include(p => p.Category) // Əgər kateqoriyanı da göstərmək istəyirsənsə
+                .SingleOrDefaultAsync();
 
             if (product == null)
             {
-                return NotFound();
+                return NotFound("No product found with the given ID.");
             }
 
-            return View(product);
+            var productViewModel = new ProductViewModel()
+            {
+                ProductName = product.ProductName,
+                Price = product.Price,
+                Description = product.Description,
+                CategoryName = product.Category != null ? product.Category.Name : "No Category",
+                Count = product.Count,
+                Image = product.Image,
+
+
+
+                Product = await _context.Products.ToListAsync()
+            };
+
+            return View(productViewModel);
         }
+
     }
 }

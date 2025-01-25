@@ -23,6 +23,8 @@ namespace SultanSklep.ViewModels.Product
 
         public decimal Price { get; set; }
         public bool IsAvailable { get; set; } // Məhsulun mövcud olub olmadığını göstərir
+        public List<Models.Product> Product { get; set; }
+        public List<ProductOperation> ProductsInCart { get; set; }
     }
 
 }

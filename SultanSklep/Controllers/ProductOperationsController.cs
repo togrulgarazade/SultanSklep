@@ -4,341 +4,113 @@ using Microsoft.AspNetCore.Mvc;
 using SultanSklep.DataAccessLayer;
 using SultanSklep.Models;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SultanSklep.ViewModels.Product;
 
 namespace SultanSklep.Controllers
 {
     public class ProductOperationsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductOperationsController(AppDbContext context)
+        public ProductOperationsController(AppDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // Səbətə məhsul əlavə etmək
-        [HttpPost]
-        public IActionResult AddToCart(int productId, int quantity)
+        [Authorize]
+        public async Task<IActionResult> Cart()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.Identity.Name; // Daxil olan istifadəçinin adı və ya ID
 
-            if (string.IsNullOrEmpty(userId))
+            // İstifadəçinin səbətindəki məhsulları çəkirik
+            var productOperations = await _context.ProductOperations
+                .Where(po => po.UserID == userId && po.InCart == true)
+                .Include(po => po.Product) // Məhsul məlumatlarını da əlavə et
+                .ToListAsync();
+
+            // Əgər səbət boşdursa
+            if (!productOperations.Any())
             {
-                return Unauthorized("User is not logged in.");
+                return View(new ProductViewModel
+                {
+                    ProductsInCart = new List<ProductOperation>() // Boş səbət
+                });
             }
 
-            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product == null || product.Count < quantity)
+            // Məhsul məlumatlarını ViewModel-ə yükləyirik
+            ProductViewModel productViewModel = new ProductViewModel
             {
-                return BadRequest("Product is out of stock.");
-            }
-
-            var productOperation = new ProductOperation
-            {
-                UserID = userId,
-                ProductID = productId,
-                InCart = true,
-                IsOrdered = false,
-                IsPending = false,
-                IsCompleted = false,
-                IsDeleted = false,
-                Count = quantity // Say məlumatını əlavə edin
+                ProductsInCart = productOperations
             };
 
-            _context.ProductOperations.Add(productOperation);
-            _context.SaveChanges();
-
-            return RedirectToAction("Cart");
+            return View(productViewModel);
         }
 
-        [HttpPost]
-        public IActionResult RemoveFromCart(int id)
+
+        [Authorize]
+        public async Task<IActionResult> AddToCart(int id, string returnUrl)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userId = _userManager.GetUserId(HttpContext.User); // Hal-hazırda daxil olmuş istifadəçi ID-sini əldə et
 
-            if (string.IsNullOrEmpty(userId))
+            if (userId == null) // Əgər istifadəçi məlumatı tapılmadısa, səhv qaytarırıq
             {
-                return Unauthorized("User is not logged in.");
+                return Unauthorized(); // İstifadəçi məlumatı yoxdursa, səlahiyyət səhvi verir
             }
 
-            var productOperation = _context.ProductOperations
-                .FirstOrDefault(po => po.Id == id && po.UserID == userId && po.InCart);
+            // Məhsulun olub olmadığını yoxlayaq
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
-            if (productOperation == null)
+            if (product == null) // Məhsul tapılmadıqda səhv qaytarırıq
             {
-                return NotFound("Item not found in the cart.");
+                return NotFound("Product not found.");
             }
 
-            productOperation.InCart = false;
+            // Səbətdə məhsulun olub olmadığını yoxlayırıq
+            var existingProductOperation = await _context.ProductOperations
+                .FirstOrDefaultAsync(po => po.UserID == userId && po.ProductID == id && po.InCart);
 
-            _context.SaveChanges();
-
-            return RedirectToAction("Cart");
-        }
-
-        [HttpPost]
-        public IActionResult UpdateCart(Dictionary<int, int> quantities)
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
+            if (existingProductOperation != null) // Əgər məhsul artıq səbətdə varsa, sayını artırırıq
             {
-                return Unauthorized("User is not logged in.");
+                existingProductOperation.Count += 1; // Hər dəfə tək məhsul əlavə edirik
             }
-
-            var cartItems = _context.ProductOperations
-                .Where(po => po.UserID == userId && po.InCart && !po.IsDeleted)
-                .ToList();
-
-            foreach (var item in cartItems)
+            else // Əgər səbətdə yoxdursa, yeni əməliyyat yaradırıq
             {
-                if (quantities.ContainsKey(item.Id))
+                var productOperation = new ProductOperation()
                 {
-                    item.Count = quantities[item.Id];  // Sayı yeniləyirik
-                }
+                    ProductID = id,
+                    UserID = userId,
+                    InCart = true,
+                    Count = 1, // Başlanğıc olaraq 1 məhsul əlavə edirik
+                    IsOrdered = false,
+                    IsPending = false,
+                    IsCompleted = false,
+                    IsDeleted = false
+                };
+
+                await _context.ProductOperations.AddAsync(productOperation); // Yeni əməliyyat əlavə edilir
             }
 
-            _context.SaveChanges();
+            // Məhsulun stokunu yeniləyirik
+            product.Count -= 1;
 
-            return RedirectToAction("Cart");
+            // Dəyişiklikləri yadda saxlayırıq
+            await _context.SaveChangesAsync();
+
+            // ReturnUrl varsa, ona yönləndiririk
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
-        // Proceed to Order metodunu yazırıq
-        public IActionResult ProceedToOrder()
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User is not logged in.");
-            }
-
-            // İstifadəçinin saxlanmış ünvanlarını əldə et
-            var addresses = _context.Addresses
-                .Where(a => a.UserID == userId)
-                .ToList();
-
-            // Əgər istifadəçinin ünvanı yoxdursa, AddAddress səhifəsinə yönləndiririk
-            if (addresses.Count == 0)
-            {
-                return RedirectToAction("AddAddress");
-            }
-
-            // Əgər ünvan varsa, SelectAddress səhifəsinə yönləndiririk
-            return RedirectToAction("SelectAddress");
-        }
-
-
-
-        // Səbəti göstərmək
-        public IActionResult Cart()
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User is not logged in.");
-            }
-
-            var cartItems = _context.ProductOperations
-                .Where(po => po.UserID == userId && po.InCart && !po.IsDeleted)
-                .Include(po => po.Product) // Məhsul məlumatlarını əlavə edin
-                .ToList();
-
-            return View(cartItems);
-        }
-
-
-        // Sifarişi təsdiqləmək
-        [HttpPost]
-        public IActionResult ConfirmOrder(int addressId, int productOperationId)
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User is not logged in.");
-            }
-
-            // ProductOperation-u tapırıq
-            var productOperation = _context.ProductOperations
-                .FirstOrDefault(po => po.Id == productOperationId && po.UserID == userId);
-
-            if (productOperation == null)
-            {
-                return NotFound("Order not found.");
-            }
-
-            // Address-i tapırıq
-            var selectedAddress = _context.Addresses
-                .FirstOrDefault(a => a.Id == addressId && a.UserID == userId);
-
-            if (selectedAddress == null)
-            {
-                return NotFound("Selected address not found.");
-            }
-
-            // Ünvanı sifarişə bağlayırıq
-            productOperation.AddressID = addressId;
-            productOperation.IsOrdered = true;
-            productOperation.IsPending = true;
-            productOperation.InCart = false;
-
-            _context.SaveChanges();
-
-            return RedirectToAction("OrderDetails", new { id = productOperation.Id });
-        }
-
-
-
-
-
-        // Sifariş detalları
-        public IActionResult OrderDetails(int id)
-        {
-            var order = _context.ProductOperations
-                .Include(po => po.Product)
-                .Include(po => po.Address)
-                .FirstOrDefault(po => po.Id == id);
-
-            if (order == null)
-            {
-                return NotFound("Order not found.");
-            }
-
-            return View(order);
-        }
-
-
-
-        public IActionResult SelectAddress()
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User is not logged in.");
-            }
-
-            // İstifadəçinin ünvanlarını əldə edirik
-            var addresses = _context.Addresses
-                .Where(a => a.UserID == userId && !a.AddressLabel.StartsWith("NS"))
-                .ToList();
-
-            // Əgər ünvan varsa, onları göndəririk
-            if (addresses.Count == 0)
-            {
-                return RedirectToAction("AddAddress");
-            }
-
-            return View(addresses);
-        }
-
-
-
-
-        public IActionResult AddAddress()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddAddress(Address address, bool saveAddressLabel)
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User is not logged in.");
-            }
-
-            address.UserID = userId;
-
-            if (saveAddressLabel)
-            {
-                // Əgər istifadəçi AddressLabel təyin etmək istəyirsə, onu istifadə edək
-                address.AddressLabel = string.IsNullOrEmpty(address.AddressLabel)
-                    ? $"NS{Guid.NewGuid().ToString("N").Substring(0, 8)}"
-                    : address.AddressLabel;
-            }
-            else
-            {
-                // Əgər istifadəçi AddressLabel saxlamaq istəmirsə, backend-də GUID təyin et
-                address.AddressLabel = $"NS{Guid.NewGuid().ToString("N").Substring(0, 8)}";
-            }
-
-            _context.Addresses.Add(address);
-            _context.SaveChanges();
-
-            // Ünvanı əlavə etdikdən sonra SelectAddress səhifəsinə yönləndiririk
-            return RedirectToAction("SelectAddress");
-        }
-
-
-
-        [HttpPost]
-        public IActionResult AddNewAddress(Address address, bool saveAddressLabel)
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User is not logged in.");
-            }
-
-            address.UserID = userId;
-
-            // Əgər Save Address seçilibsə, AddressLabel təyin edilir
-            if (saveAddressLabel)
-            {
-                address.AddressLabel = string.IsNullOrEmpty(address.AddressLabel)
-                    ? $"NS{Guid.NewGuid().ToString("N").Substring(0, 8)}"
-                    : address.AddressLabel;
-            }
-            else
-            {
-                // Əgər Save Address seçilməyibsə, GUID ilə AddressLabel təyin olunur
-                address.AddressLabel = $"NS{Guid.NewGuid().ToString("N").Substring(0, 8)}";
-            }
-
-            _context.Addresses.Add(address);
-            _context.SaveChanges();
-
-            // Yeni ünvan əlavə edildikdən sonra SelectAddress səhifəsinə yönləndiririk
-            return RedirectToAction("SelectAddress");
-        }
-
-
-        [HttpPost]
-        public IActionResult AddNewAddressAndProceed(Address address, bool saveAddressLabel, int productOperationId)
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized("User is not logged in.");
-            }
-
-            address.UserID = userId;
-
-            // Save Address seçilibsə, AddressLabel istifadəçinin verdiyi dəyərə əsaslanır
-            if (saveAddressLabel && !string.IsNullOrEmpty(address.AddressLabel))
-            {
-                address.AddressLabel = address.AddressLabel;
-            }
-            else
-            {
-                // Əks halda GUID təyin olunur
-                address.AddressLabel = $"NS{Guid.NewGuid().ToString("N").Substring(0, 8)}";
-            }
-
-            _context.Addresses.Add(address);
-            _context.SaveChanges();
-
-            // Yeni ünvan əlavə edildikdən sonra ConfirmOrder metoduna yönləndirilir
-            return RedirectToAction("ConfirmOrder", new { addressId = address.Id, productOperationId });
-        }
 
 
     }
