@@ -1,13 +1,49 @@
-﻿@model SultanSklep.Models.Product
+﻿@model SultanSklep.ViewModels.Product.ProductViewModel
 
-<div class="product-details">
-    <img src="@Model.Image" alt="@Model.ProductName">
-    <h2>@Model.ProductName</h2>
-    <p>@Model.Description</p>
-    <p>Price: @Model.Price zł</p>
-    <p>Stock: @Model.Count</p>
-    <form asp-controller="ProductOperations" asp-action="AddToCart" method="post">
-        <input type="hidden" name="productId" value="@Model.Id" />
-        <button type="submit" class="btn btn-success">Add to Cart</button>
-    </form>
-</div>
+<main>
+    <div class="product-container">
+        <div class="product-image-area">
+            <img src="~/@Model.Image"
+                 alt="@Model.ProductName" />
+        </div>
+        <div class="product-info">
+            <h2>@Model.ProductName</h2>
+            <div class="product-category-price">
+                <p class="product-price">Price: $@Model.Price</p>
+                <p class="product-category">Category: @Model.CategoryName</p>
+            </div>
+            <p>
+                @Model.Description
+            </p>
+            <div class="product-quantity">
+                <button class="decrease-button">-</button>
+                <input type="number" name="count" value="1" class="quantity-input" min="1" max="@Model.Count" />
+                <button class="increase-button">+</button>
+                <span class="stock-count">Count: @Model.Count</span>
+            </div>
+            <form asp-action="AddToCart" asp-controller="ProductOperations" method="post">
+                <!-- Burada productId-ni göndəririk -->
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="number" name="count" value="1" min="1" max="@Model.Count" class="form-control" />
+                <button type="submit" class="btn btn-primary mt-2">Add to Cart</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="product-grid">
+        @foreach (var product in @Model.Product)
+        {
+            <div style="width:300px !important;" class="product-card">
+                <img style="height:250px; width:180px;" src="~/@product.Image"
+                     alt="@product.ProductName" />
+                <h3>@product.ProductName</h3>
+                <p class="product-price">$@product.Price</p>
+                <form asp-action="AddToCart" asp-controller="ProductOperations" method="post">
+                    <input type="hidden" name="productId" value="@product.Id" />
+                    <input type="number" name="count" value="1" min="1" max="@product.Count" class="form-control" />
+                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                </form>
+            </div>
+        }
+    </section>
+</main>
