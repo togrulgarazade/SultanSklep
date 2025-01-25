@@ -1,0 +1,49 @@
+﻿@model SultanSklep.ViewModels.AccountViewModels.UserViewModel
+@{
+    ViewData["Title"] = "Users";
+    int count = 1;
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-2 text-gray-800">Users</h1>
+    <p class="mb-4 d-flex justify-content-end">
+        <a class="btn btn-primary" asp-controller="User" asp-action="Create">Add New User</a>
+    </p>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.ApplicationUsers)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@user.FullName</td>
+                                <td>@user.Email</td>
+                                <td>@user.PhoneNumber</td>
+                                <td>@(user.EmailConfirmed ? "Active" : "Inactive")</td>
+                                <td>
+                                    <a class="btn btn-info" asp-controller="User" asp-action="Details" asp-route-id="@user.Id">Details</a>
+                                    <a class="btn btn-warning" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                                    <a class="btn btn-danger" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
