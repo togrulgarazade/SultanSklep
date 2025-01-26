@@ -47,6 +47,7 @@ namespace SultanSklep.Controllers
 
             var productViewModel = new ProductViewModel()
             {
+                Id = product.Id,   
                 ProductName = product.ProductName,
                 Price = product.Price,
                 Description = product.Description,
