@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Stripe;
 
 namespace SultanSklep
 {
@@ -67,6 +68,9 @@ namespace SultanSklep
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            StripeConfiguration.ApiKey = "sk_test_51QlSoo4GZgbx3LwFWTgAK6JPdbAybjHgo1J9DAmrc0TfgBNnYrdj1cUbdigDvzsO9aO6pp4wQ50SFXTlDI9lNYeT0032A4gJDa";
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

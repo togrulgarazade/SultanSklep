@@ -112,6 +112,81 @@ namespace SultanSklep.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> CreateCheckoutSession()
+        {
+            try
+            {
+                // Daxil olmuş istifadəçinin ID-sini əldə edin
+                var userId = _userManager.GetUserId(HttpContext.User);
+
+                if (userId == null)
+                {
+                    return Json(new { error = "User not logged in." }); // JSON cavabı qaytarılır
+                }
+
+                // Səbətdəki məhsulları əldə edin
+                var cartItems = await _context.ProductOperations
+                    .Where(po => po.UserID == userId && po.InCart)
+                    .Include(po => po.Product)
+                    .ToListAsync();
+
+                if (!cartItems.Any())
+                {
+                    return Json(new { error = "Your cart is empty." }); // JSON cavabı qaytarılır
+                }
+
+                // Stripe sessiyası üçün məhsul məlumatlarını əlavə edin
+                var lineItems = new List<Stripe.Checkout.SessionLineItemOptions>();
+                foreach (var item in cartItems)
+                {
+                    lineItems.Add(new Stripe.Checkout.SessionLineItemOptions
+                    {
+                        PriceData = new Stripe.Checkout.SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = (long)(item.Product.Price * 100), // Məbləği sentə çevirmək üçün
+                            Currency = "azn", // Valyuta
+                            ProductData = new Stripe.Checkout.SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = item.Product.ProductName, // Məhsulun adı
+                            },
+                        },
+                        Quantity = item.Count, // Məhsul sayı
+                    });
+                }
+
+                // Stripe sessiyasını yaradın
+                var options = new Stripe.Checkout.SessionCreateOptions
+                {
+                    PaymentMethodTypes = new List<string> { "card" }, // Ödəniş metodları
+                    LineItems = lineItems,
+                    Mode = "payment", // Ödəniş rejimi
+                    SuccessUrl = "https://localhost:5001/ProductOperations/Order", // Uğurlu ödənişdən sonra
+                    CancelUrl = "https://localhost:5001/ProductOperations/Cart", // Ləğv olunduqda
+                };
+
+                var service = new Stripe.Checkout.SessionService();
+                var session = service.Create(options);
+
+                if (session == null || string.IsNullOrEmpty(session.Id))
+                {
+                    return Json(new { error = "Failed to create Stripe session." }); // JSON cavabı qaytarılır
+                }
+
+                return Json(new { id = session.Id }); // Uğurlu cavab qaytarılır
+            }
+            catch (Exception ex)
+            {
+                // Xəta baş verərsə JSON formatında cavab qaytarılır
+                Console.WriteLine($"Error creating Stripe session: {ex.Message}");
+                return Json(new { error = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+
+
+
+
 
     }
 }
