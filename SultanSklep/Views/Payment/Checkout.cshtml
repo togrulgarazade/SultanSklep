@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+<h1>Sifariş ödənişi</h1>
+<button id="checkout-button">Ödənişə keç</button>
+
+<script>
+        var stripe = Stripe('YOUR_PUBLISHABLE_KEY'); // Burada Publishable Key əlavə edin
+
+        document.getElementById('checkout-button').addEventListener('click', function () {
+            fetch('/Payment/CreateCheckoutSession', {
+                method: 'POST',
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (session) {
+                return stripe.redirectToCheckout({ sessionId: session.id });
+            })
+            .then(function (result) {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
