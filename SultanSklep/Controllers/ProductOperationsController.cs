@@ -26,8 +26,8 @@ namespace SultanSklep.Controllers
         [Authorize]
         public async Task<IActionResult> Cart()
         {
-            var userId = User.Identity.Name; // Daxil olan istifadəçinin adı və ya ID
-
+            /*var userId = User.Identity.Name;*/ // Daxil olan istifadəçinin adı və ya ID
+            var userId = _userManager.GetUserId(HttpContext.User);
             // İstifadəçinin səbətindəki məhsulları çəkirik
             var productOperations = await _context.ProductOperations
                 .Where(po => po.UserID == userId && po.InCart == true)
@@ -38,8 +38,7 @@ namespace SultanSklep.Controllers
             if (!productOperations.Any())
             {
                 return View(new ProductViewModel
-                {
-                    ProductsInCart = new List<ProductOperation>() // Boş səbət
+                {                    ProductsInCart = new List<ProductOperation>() // Boş səbət
                 });
             }
 
@@ -54,8 +53,10 @@ namespace SultanSklep.Controllers
 
 
         [Authorize]
-        public async Task<IActionResult> AddToCart(int id, string returnUrl)
+        public async Task<IActionResult> AddToCart(int productId, int count, string returnUrl)
         {
+            Console.WriteLine(productId);
+            Console.WriteLine(count);
             var userId = _userManager.GetUserId(HttpContext.User); // Hal-hazırda daxil olmuş istifadəçi ID-sini əldə et
 
             if (userId == null) // Əgər istifadəçi məlumatı tapılmadısa, səhv qaytarırıq
@@ -64,7 +65,7 @@ namespace SultanSklep.Controllers
             }
 
             // Məhsulun olub olmadığını yoxlayaq
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
             if (product == null) // Məhsul tapılmadıqda səhv qaytarırıq
             {
@@ -73,7 +74,7 @@ namespace SultanSklep.Controllers
 
             // Səbətdə məhsulun olub olmadığını yoxlayırıq
             var existingProductOperation = await _context.ProductOperations
-                .FirstOrDefaultAsync(po => po.UserID == userId && po.ProductID == id && po.InCart);
+                .FirstOrDefaultAsync(po => po.UserID == userId && po.ProductID == productId && po.InCart);
 
             if (existingProductOperation != null) // Əgər məhsul artıq səbətdə varsa, sayını artırırıq
             {
@@ -83,10 +84,10 @@ namespace SultanSklep.Controllers
             {
                 var productOperation = new ProductOperation()
                 {
-                    ProductID = id,
+                    ProductID = productId,
                     UserID = userId,
                     InCart = true,
-                    Count = 1, // Başlanğıc olaraq 1 məhsul əlavə edirik
+                    Count = count, // Başlanğıc olaraq 1 məhsul əlavə edirik
                     IsOrdered = false,
                     IsPending = false,
                     IsCompleted = false,
@@ -110,6 +111,42 @@ namespace SultanSklep.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [Authorize]
+        public async Task<IActionResult> Order()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User); // Get the current user's ID.
+
+            if (userId == null)
+            {
+                return Unauthorized("User not logged in."); // Ensure the user is authorized.
+            }
+
+            // Retrieve all products in the cart for the current user.
+            var cartItems = await _context.ProductOperations
+                .Where(po => po.UserID == userId && po.InCart)
+                .Include(po => po.Product)
+                .ToListAsync();
+
+            if (!cartItems.Any())
+            {
+                return BadRequest("Your cart is empty."); // Ensure the cart is not empty.
+            }
+
+            // Update the cart items to mark them as ordered.
+            foreach (var cartItem in cartItems)
+            {
+                cartItem.InCart = false;
+                cartItem.IsOrdered = true;
+            }
+
+            // Save changes to the database.
+            await _context.SaveChangesAsync();
+
+            // Redirect to a confirmation page or order summary.
+            return RedirectToAction("OrderConfirmation");
+        }
+
 
 
 
