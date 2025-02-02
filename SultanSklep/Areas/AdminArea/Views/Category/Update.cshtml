@@ -3,14 +3,27 @@
     ViewData["Title"] = "Update Category";
 }
 
-<div class="container">
-    <h2>Kateqoriyanı Yenilə</h2>
-    <form method="post" asp-action="Update" asp-route-id="@Model.Id">
-        <div class="form-group">
-            <label asp-for="Name">Kateqoriya Adı</label>
-            <input asp-for="Name" class="form-control" placeholder="Kateqoriya adını yeniləyin">
-            <span class="text-danger" asp-validation-for="Name"></span>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4 text-center">Update Category</h6>
+                <form method="post" asp-action="Update" asp-route-id="@Model.Id">
+
+                    <!-- Category Name -->
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control" id="categoryName" placeholder="Enter category name" required>
+                        <label for="categoryName">Category Name</label>
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+
+                    <!-- Submit and Cancel Buttons -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Update Category</button>
+                        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Yenilə</button>
-    </form>
+    </div>
 </div>

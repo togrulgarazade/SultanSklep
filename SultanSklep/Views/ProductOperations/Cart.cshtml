@@ -6,73 +6,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-<div class="container mt-5">
-    <h1>Your Cart</h1>
 
-
-    @if (Model.ProductsInCart.Any())
-    {
-        <!-- Form for submitting all cart items -->
-        <form asp-action="Order" asp-controller="ProductOperations" method="post">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (var i = 0; i < Model.ProductsInCart.Count; i++)
-                    {
-                        var operation = Model.ProductsInCart[i];
-                        <tr>
-                            <td>
-                                @operation.Product.ProductName
-                                <!-- Hidden input for product ID -->
-                                <input type="hidden" name="CartItems[@i].ProductId" value="@operation.Product.Id" />
-                            </td>
-                            <td>
-                                $@operation.Product.Price
-                                <!-- Hidden input for product price -->
-                                <input type="hidden" name="CartItems[@i].Price" value="@operation.Product.Price" />
-                            </td>
-                            <td>
-                                <input type="number"
-                                       name="CartItems[@i].Count"
-                                       value="@operation.Count"
-                                       class="form-control quantity-input"
-                                       min="1"
-                                       max="@operation.Product.Count" />
-                            </td>
-                            <td>
-                                $@(operation.Product.Price * operation.Count)
-                                <!-- Hidden input for total price -->
-                                <input type="hidden" name="CartItems[@i].Total" value="@(operation.Product.Price * operation.Count)" />
-                            </td>
-                            <td>
-                                <button formaction="@Url.Action("RemoveFromCart", "ProductOperations")"
-                                        formmethod="post"
-                                        class="btn btn-danger">
-                                    Remove
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <div class="text-end">
-                <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
-            </div>
-        </form>
-    }
-    else
-    {
-        <p>Your cart is empty. Start shopping!</p>
-    }
-</div>
 
         @if (Model.ProductsInCart.Any())
         {

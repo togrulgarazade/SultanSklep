@@ -1,51 +1,57 @@
 ﻿@model IEnumerable<SultanSklep.Models.Category>
 @{
-    ViewData["Title"] = "Kateqoriyalar";
+    ViewData["Title"] = "Categories";
     int count = 1;
 }
 
-<div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Kateqoriyalar</h1>
-    <p class="mb-4 d-flex justify-content-end">
-        <a class="btn btn-primary" asp-controller="Category" asp-action="Create">Əlavə et</a>
-    </p>
+<div class="container-fluid pt-5 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h6 class="mb-0">Categories</h6>
+                    <a class="btn btn-primary" asp-controller="Category" asp-action="Create">+ Add Category</a>
+                </div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <div class="input-group">
-                <form method="get" asp-action="Index">
-                    <div class="form-outline">
-                        <input autocomplete="off" type="search" placeholder="Kateqoriyalarda axtar..." value="@ViewData["SearchedCategory"]" name="categorySearch" class="form-control" />
-                        <a class="btn btn-link" asp-action="Index">Bütün kateqoriyalar</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Ad</th>
-                            <th>Əməliyyatlar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+                <!-- Search Bar -->
+                <div class="mb-3">
+                    <form method="get" asp-action="Index" class="d-flex">
+                        <input type="search" placeholder="Search categories..." value="@ViewData["SearchedCategory"]" name="categorySearch" class="form-control me-2" />
+                        <a class="btn btn-secondary" asp-action="Index">All Categories</a>
+                    </form>
+                </div>
+
+                <!-- Categories Table -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>@count</td>
-                                <td>@item.Name</td>
-                                <td>
-                                    <a class="btn btn-primary" asp-controller="Category" asp-action="Update" asp-route-id="@item.Id"><i class="fa-solid fa-pencil"></i></a>
-                                    <a class="btn btn-primary" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a>
-                                </td>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Actions</th>
                             </tr>
-                            count++;
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th scope="row">@count</th>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" asp-controller="Category" asp-action="Update" asp-route-id="@item.Id">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                count++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

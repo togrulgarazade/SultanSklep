@@ -1,235 +1,110 @@
 ﻿@{ var fullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? "Unknown User"; }
 
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
-          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
-    <meta name="description"
-          content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="robots" content="noindex,nofollow">
     <title>@ViewData["Title"]</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/admin/plugins/images/favicon.png">
-    <!-- Custom CSS -->
-    <link href="~/assets/admin/plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="~/assets/admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
-    <!-- Custom CSS -->
-    <link href="~/assets/admin/css/style.min.css" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    @*<div class="preloader">
-            <div class="lds-ripple">
-                <div class="lds-pos"></div>
-                <div class="lds-pos"></div>
-            </div>
-        </div>*@
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar" data-navbarbg="skin5">
-            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-                <div class="navbar-header" data-logobg="skin6">
-                    <!-- ============================================================== -->
-                    <!-- Logo -->
-                    <!-- ============================================================== -->
-                    <a class="navbar-brand" asp-area="Default" asp-controller="Home" asp-action="Index">
-                        <!-- Logo text -->
-                        <span class="logo-text">
-                            <!-- dark Logo text -->
-                            <img height="30" width="200" src="~/assets/img/main_logo.jpg" alt="homepage" />
-                        </span>
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a asp-area="AdminArea" asp-controller="Dashboard" asp-action="Index" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>SULTANSKLEP</h3>
+                </a>
+                <div class="navbar-nav w-100">
+                    <a class="nav-item nav-link active" asp-area="AdminArea" asp-controller="Dashboard" asp-action="Index">
+                        <i class="fa fa-tachometer-alt me-2"></i>Dashboard
                     </a>
-                    <!-- ============================================================== -->
-                    <!-- End Logo -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
-                       href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                    <a asp-area="AdminArea" asp-controller="Product" asp-action="Index" class="nav-item nav-link">
+                        <i class="fa fa-box me-2"></i>Products
+                    </a>
+                    <a asp-area="AdminArea" asp-controller="Category" asp-action="Index" class="nav-item nav-link">
+                        <i class="fa fa-tags me-2"></i>Categories
+                    </a>
+                    <a asp-area="AdminArea" asp-controller="User" asp-action="Index" class="nav-item nav-link">
+                        <i class="fa fa-user me-2"></i>Users
+                    </a>
 
-                    <!-- ============================================================== -->
-                    <!-- Right side toggle and nav items -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav ms-auto d-flex align-items-center">
-
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class=" in">
-                            <form role="search" class="app-search d-none d-md-block me-3">
-                                <input type="text" placeholder="Search..." class="form-control mt-0">
-                                <a href="" class="active">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                            </form>
-                        </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
-                        <li>
-                            <a class="profile-pic" href="#">
-                                <img src="~/assets/img/man-noback.png" alt="user-img" width="36"
-                                     class="img-circle"><span class="text-white font-medium">@fullName</span>
-                                </a>
-                            </li>
-                            <!-- ============================================================== -->
-                            <!-- User profile and search -->
-                            <!-- ============================================================== -->
-                        </ul>
-                    </div>
-                </nav>
-            </header>
-            <!-- ============================================================== -->
-            <!-- End Topbar header -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Left Sidebar - style you can find in sidebar.scss  -->
-            <!-- ============================================================== -->
-            <aside class="left-sidebar" data-sidebarbg="skin6">
-                <!-- Sidebar scroll-->
-                <div class="scroll-sidebar">
-                    <!-- Sidebar navigation-->
-                    <nav class="sidebar-nav">
-                        <ul id="sidebarnav">
-                            <!-- User Profile-->
-                            <li class="sidebar-item pt-2">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="AdminArea" asp-controller="Dashboard" asp-action="Index"
-                                   aria-expanded="false">
-                                    <i class="far fa-clock" aria-hidden="true"></i>
-                                    <span class="hide-menu">Dashboard</span>
-                                </a>
-                            </li>
-
-
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="AdminArea" asp-controller="Product" asp-action="Index" aria-expanded="false">
-                                    <i class="fas fa-align-justify" aria-hidden="true"></i>
-                                    <span class="hide-menu">Products</span>
-                                </a>
-                            </li>
-
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="AdminArea" asp-controller="Category" asp-action="Index" aria-expanded="false">
-                                    <i class="fas fa-align-justify" aria-hidden="true"></i>
-                                    <span class="hide-menu">Category</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link" asp-area="AdminArea" asp-controller="User" asp-action="Index" aria-expanded="false">
-                                    <i class="fas fa-align-justify" aria-hidden="true"></i>
-                                    <span class="hide-menu">User</span>
-                                </a>
-                            </li>
-
-
-
-
-                            <li class="text-center p-20 upgrade-btn">
-                                <a asp-area="Default" asp-controller="Home" asp-action="Index"
-                                   class="btn d-grid btn-danger text-white" target="_blank">
-                                    Go to Website
-                                </a>
-                            </li>
-                        </ul>
-
-                    </nav>
-                    <!-- End Sidebar navigation -->
-                </div>
-                <!-- End Sidebar scroll-->
-            </aside>
-            <!-- ============================================================== -->
-            <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Page wrapper  -->
-            <!-- ============================================================== -->
-            <div class="page-wrapper">
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <div class="page-breadcrumb bg-white">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                            <h4 class="page-title">@ViewData["Section"]</h4>
-                        </div>
-                        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                            <div class="d-md-flex">
-                                <ol class="breadcrumb ms-auto">
-                                    <li><a asp-area="AdminFiorello" asp-controller="Dashboard" asp-action="Index" class="fw-normal">Dashboard</a></li>
-                                </ol>
-                                <a asp-area="Default" asp-controller="Home" asp-action="Index" target="_blank"
-                                   class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">
-                                    Go to Website
-                                </a>
-                            </div>
+                    <!-- Orders Dropdown Menu -->
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-shopping-cart me-2"></i>Orders
+                        </a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a asp-area="AdminArea" asp-controller="Order" asp-action="NewOrders" class="dropdown-item">New Orders</a>
+                            <a asp-area="AdminArea" asp-controller="Order" asp-action="PendingOrders" class="dropdown-item">Pending Orders</a>
+                            <a asp-area="AdminArea" asp-controller="Order" asp-action="SendedOrders" class="dropdown-item">Sended Orders</a>
+                            <a asp-area="AdminArea" asp-controller="Order" asp-action="CompletedOrders" class="dropdown-item">Completed Orders</a>
                         </div>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Container fluid  -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- End Container fluid  -->
-                <!-- ============================================================== -->
-
-                @RenderBody()
-
-
-                <!-- footer -->
-                <footer class="footer text-center">
-                    2025 © by WeDevloop
-                </footer>
-                <!-- End footer -->
-            </div>
-            <!-- End Page wrapper  -->
+            </nav>
         </div>
-        <!-- End Wrapper -->
-        <!-- ============================================================== -->
-        <!-- All Jquery -->
-        <!-- ============================================================== -->
-        <script src="~/admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-        <script src="https://kit.fontawesome.com/d1b6fcd2b3.js" crossorigin="anonymous"></script>
-        <!-- Bootstrap tether Core JavaScript -->
-        <script src="~/admin/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/admin/js/app-style-switcher.js"></script>
-        <script src="~/admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-        <!--Wave Effects -->
-        <script src="~/admin/js/waves.js"></script>
-        <!--Menu sidebar -->
-        <script src="~/admin/js/sidebarmenu.js"></script>
-        <!--Custom JavaScript -->
-        <script src="~/admin/js/custom.js"></script>
-        <!--This page JavaScript -->
-        <!--chartis chart-->
-        <script src="~/admin/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-        <script src="~/admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-        <script src="~/admin/js/pages/dashboards/dashboard1.js"></script>
-    </body>
+        <!-- Sidebar End -->
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <a asp-area="AdminArea" asp-controller="Dashboard" asp-action="Index" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a class="nav-link">
+                            <span class="d-none d-lg-inline-flex">@fullName</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+            <!-- Dynamic Content -->
+            <div class="container-fluid pt-4 px-4">
+                @RenderBody()
+            </div>
+
+        </div>
+        <!-- Content End -->
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/chart/chart.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="~/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
 
 </html>
