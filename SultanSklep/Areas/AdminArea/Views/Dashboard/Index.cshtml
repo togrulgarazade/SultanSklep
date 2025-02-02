@@ -1,82 +1,35 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
     ViewData["Section"] = "Dashboard";
 }
 
-<div class="container-fluid">
-    <!-- ============================================================== -->
-    <!-- Three charts -->
-    <!-- ============================================================== -->
-    <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-12">
-            <div class="white-box analytics-info">
-                <h3 class="box-title">Total Visit</h3>
-                <ul class="list-inline two-part d-flex align-items-center mb-0">
-                    <li>
-                        <div id="sparklinedash">
-                            <canvas width="67" height="30"
-                                    style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                        </div>
-                    </li>
-                    <li class="ms-auto"><span class="counter text-success">659</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-12">
-            <div class="white-box analytics-info">
-                <h3 class="box-title">Total Page Views</h3>
-                <ul class="list-inline two-part d-flex align-items-center mb-0">
-                    <li>
-                        <div id="sparklinedash2">
-                            <canvas width="67" height="30"
-                                    style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                        </div>
-                    </li>
-                    <li class="ms-auto"><span class="counter text-purple">869</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-12">
-            <div class="white-box analytics-info">
-                <h3 class="box-title">Unique Visitor</h3>
-                <ul class="list-inline two-part d-flex align-items-center mb-0">
-                    <li>
-                        <div id="sparklinedash3">
-                            <canvas width="67" height="30"
-                                    style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                        </div>
-                    </li>
-                    <li class="ms-auto">
-                        <span class="counter text-info">911</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- ============================================================== -->
-    <!-- PRODUCTS YEARLY SALES -->
-    <!-- ============================================================== -->
-    <div class="row">
-        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-            <div class="white-box">
-                <h3 class="box-title">Products Yearly Sales</h3>
-                <div class="d-md-flex">
-                    <ul class="list-inline d-flex ms-auto">
-                        <li class="ps-3">
-                            <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
-                        </li>
-                        <li class="ps-3">
-                            <h5><i class="fa fa-circle me-1 text-inverse"></i>Windows</h5>
-                        </li>
-                    </ul>
+<!-- Widgets Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="h-100 bg-light rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="mb-0">Contact Messages</h6>
                 </div>
-                <div id="ct-visits" style="height: 405px;">
-                    <div class="chartist-tooltip" style="top: -17px; left: -12px;">
-                        <span class="chartist-tooltip-value">6</span>
+                <div class="d-flex align-items-center pt-3">
+                    <img class="rounded-circle flex-shrink-0" src="~/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-0">John Doe</h6>
+                        </div>
+                        <span>Short message goes here...</span>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-sm-12 col-md-6 col-xl-4">
+            <div class="h-100 bg-light rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Calendar</h6>
+                </div>
+                <div id="calender"></div>
+            </div>
+        </div>
     </div>
 </div>
+<!-- Widgets End -->
